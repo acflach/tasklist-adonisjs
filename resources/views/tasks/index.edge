@@ -25,7 +25,31 @@
     <div class="notification is-success is-light">
       {{ flashMessages.get('notification') }}
     </div>
-    @end
+    @endif
+
+    <div class="box">
+      <table class="table is-full-width">
+        <tbody>
+          @each( task in tasks)
+          <tr>
+            <td>
+              {{-- mark as completed --}}
+            </td>
+            <td>
+              {{ task.title }}
+            </td>
+            <td>
+              {{-- delete task --}}
+            </td>
+          </tr>
+          @else
+          <tr>
+            <td colspan="3" class="has-text-centered">No tasks!</td>
+          </tr>
+          @endeach
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 @endsection
