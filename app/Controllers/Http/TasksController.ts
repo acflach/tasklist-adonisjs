@@ -40,4 +40,13 @@ export default class TasksController {
 
     return response.redirect('back')
   }
+  public async destroy({ response, session, params }: HttpContextContract) {
+    const task = await Task.findOrFail(params.id)
+
+    await task.delete()
+
+    session.flash('notification', 'Task deleted!')
+
+    return response.redirect('back')
+  }
 }

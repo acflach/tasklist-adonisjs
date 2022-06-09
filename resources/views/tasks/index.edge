@@ -28,7 +28,7 @@
     @endif
 
     <div class="box">
-      <table class="table is-full-width">
+      <table class="table is-fullwidth">
         <tbody>
           @each( task in tasks)
           <tr>
@@ -47,7 +47,15 @@
               </div>
             </td>
             <td>
-              {{-- delete task --}}
+              <form action="{{ `/tasks/${task.id}?_method=DELETE` }}" method="post">
+                {{ csrfField() }}
+                <button type="submit" class="delete is-small"></button>
+
+                {{-- <label for="completed" class="checkbox">
+                  <input type="checkbox" name="completed" onchange="this.form.submit()" {{ task.isCompleted? 'checked'
+                    : '' }}>
+                </label> --}}
+              </form>
             </td>
           </tr>
           @else
