@@ -3,13 +3,14 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Task from 'App/Models/Task'
 
 export default class TasksController {
-  public async index({ view }: HttpContextContract) {
-    const tasks = await Task.all()
+  public async index({ view, auth }: HttpContextContract) {
+    const user = auth.user
+    await user?.preload('tasks')
 
-    return view.render('tasks/index', { tasks })
+    return view.render('tasks/index', { tasks: user?.tasks })
   }
 
-  public async store({ request, response, session }: HttpContextContract) {
+  public async store({ request, response, session, auth }: HttpContextContract) {
     const validationSchema = schema.create({
       title: schema.string({ trim: true }, [rules.maxLength(255)]),
     })
@@ -22,7 +23,7 @@ export default class TasksController {
       },
     })
 
-    await Task.create({
+    await auth.user?.related('tasks').create({
       title: validatedData.title,
     })
 
