@@ -34,4 +34,22 @@ export default class AuthController {
 
     return response.redirect('/')
   }
+
+  public showLogin({ view }: HttpContextContract) {
+    return view.render('auth/login')
+  }
+
+  public async login({ request, auth, session, response }: HttpContextContract) {
+    // const { email, password } = request.all
+    const email = request.input('email')
+    const password = request.input('password')
+
+    try {
+      await auth.attempt(email, password)
+      return response.redirect('/')
+    } catch (error) {
+      session.flash('notification', "We couldn't verify your credentials.")
+    }
+    return response.redirect('back')
+  }
 }
