@@ -5,7 +5,7 @@ import Task from 'App/Models/Task'
 export default class TasksController {
   public async index({ view, auth }: HttpContextContract) {
     const user = auth.user
-    await user?.preload('tasks')
+    await user?.load('tasks')
 
     return view.render('tasks/index', { tasks: user?.tasks })
   }
